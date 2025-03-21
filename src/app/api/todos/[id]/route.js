@@ -7,7 +7,6 @@ export async function PUT(request, { params }) {
     const { id } = params;
     const data = await request.json();
 
-    // Check which properties are being updated
     const updateData = {};
     if (data.completed !== undefined) {
       updateData.completed = data.completed;

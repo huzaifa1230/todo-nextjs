@@ -3,8 +3,10 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
 
 export default function EditTodo({ params }) {
+  const { data: session, status } = useSession();
   const router = useRouter();
   //   const { id } = params;
   const resolvedParams = use(params);
@@ -15,6 +17,11 @@ export default function EditTodo({ params }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
   // Fetch the todo item
   useEffect(() => {
     const fetchTodo = async () => {
@@ -57,7 +64,6 @@ export default function EditTodo({ params }) {
     if (!title.trim()) return;
 
     try {
-      // First update the title if it changed
       if (title !== todo.title) {
         const titleResponse = await fetch(`/api/todos/${id}`, {
           method: "PUT",
@@ -72,7 +78,6 @@ export default function EditTodo({ params }) {
         }
       }
 
-      // Then update the completed status if it changed
       if (completed !== todo.completed) {
         const completedResponse = await fetch(`/api/todos/${id}`, {
           method: "PUT",
@@ -87,7 +92,6 @@ export default function EditTodo({ params }) {
         }
       }
 
-      // Navigate back to dashboard
       router.push("/");
     } catch (err) {
       setError("Failed to update todo. Please try again.");
@@ -103,6 +107,9 @@ export default function EditTodo({ params }) {
     );
   }
 
+  if (!session) {
+    return null;
+  }
   if (error) {
     return (
       <div className="container mx-auto p-4 bg-gray-900 text-gray-100 min-h-screen">

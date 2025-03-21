@@ -9,7 +9,18 @@ import {
   faHourglass,
 } from "@fortawesome/free-solid-svg-icons";
 
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+
 export default function Dashboard() {
+  const { data: session, status } = useSession();
+  const router = useRouter();
+  useEffect(() => {
+    if (status === "unauthenticated") {
+      router.push("/login");
+    }
+  }, [status, router]);
+
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState("");
   const [loading, setLoading] = useState(true);
@@ -83,7 +94,6 @@ export default function Dashboard() {
     }
   };
 
-  // Toggle todo completion status
   const handleToggleComplete = async (id, currentStatus) => {
     try {
       const response = await fetch(`/api/todos/${id}`, {
@@ -106,6 +116,9 @@ export default function Dashboard() {
     }
   };
 
+  if (!session) {
+    return null;
+  }
   return (
     <div className="container mx-auto p-4 max-w-3xl bg-gray-900 min-h-screen text-gray-100">
       <h1 className="text-3xl font-bold mb-6 text-center text-purple-400 pt-6">
