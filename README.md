@@ -1,3 +1,25 @@
+It is a full stack next js todo web app.
+Acheived all the requirements as given below
+Users should be able to register or sign in using Google (via NextAuth) or their credentials.
+● The authentication mechanism should ensure secure handling of user data.
+● After signing in, users will be redirected to the Dashboard, which displays:
+● An input field to add new tasks.
+● A list of tasks showing the task name with two icon buttons for edit and delete
+functionality.
+● Adding a new task updates the task list without a page refresh.
+● Deleting a task removes it from the database and reflects the change in the UI immediately
+without page refresh.
+● Clicking the edit icon navigates the user to an Edit Page, displaying the current task in an input
+field and an Update button.
+● Updating the task saves the changes in the database and redirects the user back to the dashboard,
+updating the task list in real time.
+● The Dashboard and Edit Page should only be accessible to authenticated users.
+● The application should be fully responsive and optimized for mobile, tablet, laptop, and desktop
+devices.
+Complete responsive to any screen, deployed on vercel.
+
+
+
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
